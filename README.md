@@ -1,6 +1,6 @@
-# PipeFlow 🚀
+# PipeFlow 📦🚰
 
-![PipeFlow Logo](pipeflow_logo.webp)
+![PipeFlow Logo](PipeFlow_logo_resized.png)
 
 ## Introduction
 
