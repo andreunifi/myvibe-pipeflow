@@ -31,7 +31,7 @@ For foodies, the Milan Food Festival from June 5th to 8th, 2024, is a culinary p
 def classify_and_describe_events(event_query):
     parser = JsonOutputParser(pydantic_object=Event)
     prompt = PromptTemplate(
-        template="Classify and describe events.\n{format_instructions}\n{query}\n",
+        template="Classify and describe events, if you don't the answer to a field, leave empty.\n{format_instructions}\n{query}\n",
         input_variables=["query"],
         partial_variables={"format_instructions": parser.get_format_instructions()},
     )
