@@ -72,7 +72,7 @@ else:
 
 # Convert event data to DataFrame
 if events:
-    df = pd.DataFrame(events)
+    df = pd.read_json(events)
 
     # Slider to select the number of events to display
     max_items = st.slider("Select the maximum number of events to display", min_value=1, max_value=len(df), value=len(df))
