@@ -126,7 +126,7 @@ def create_map(events):
     m = folium.Map(location=[20, 0], zoom_start=2, tiles="cartodb dark_matter")
 
     for event in events:
-        location_name = event["location"]
+        location_name = event[2]
         coordinates = get_coordinates(location_name)
         if coordinates:
             folium.Marker(
