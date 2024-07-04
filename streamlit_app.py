@@ -3,15 +3,10 @@ import pandas as pd
 import folium
 from streamlit_folium import st_folium
 import json
+from GeoCoding import get_coordinates
 from myVibeGroq import classify_and_describe_events
 
-# Function to get coordinates for a location using a free geocoding API
-def get_coordinates(location):
-    url = f"https://nominatim.openstreetmap.org/search?q={location}&format=json&limit=1"
-    response = requests.get(url).json()
-    if response:
-        return [float(response[0]['lat']), float(response[0]['lon'])]
-    return None
+
 
 # Streamlit app configuration
 st.set_page_config(page_title="Pipeflow", page_icon=":tada:", layout="wide")
