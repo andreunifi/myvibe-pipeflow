@@ -105,8 +105,8 @@ def create_map():
     m = folium.Map(location=[20, 0], zoom_start=2, tiles="cartodb dark_matter")
     
     locations = {
-        "United States": [37.0902, -95.7129],
-        "Sweden": [60.1282, 18.6435],
+        "London": [37.0902, -95.7129],
+        "Milan": [60.1282, 18.6435],
         "France": [46.6034, 1.8883],
         "Brazil": [-14.2350, -51.9253],
         "South Africa": [-30.5595, 22.9375]
@@ -120,8 +120,6 @@ def create_map():
         ).add_to(m)
     
     return m
-
-
 
 # Center the map
 st.write("## Map of Locations")
