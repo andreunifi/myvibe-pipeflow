@@ -7,7 +7,7 @@ def fetch_data():
     # Simulated JSON data
     json_data = [
         {
-            "title": "Event 1",
+            "title": "Event 134",
             "description": "Description for Event 1",
             "start_date": "2024-07-01",
             "end_date": "2024-07-03",
