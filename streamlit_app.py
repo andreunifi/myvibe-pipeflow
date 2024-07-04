@@ -2,9 +2,18 @@ import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import st_folium
-import GeoCoding
+import json
 from myVibeGroq import classify_and_describe_events
-# Set the page config
+
+# Function to get coordinates for a location using a free geocoding API
+def get_coordinates(location):
+    url = f"https://nominatim.openstreetmap.org/search?q={location}&format=json&limit=1"
+    response = requests.get(url).json()
+    if response:
+        return [float(response[0]['lat']), float(response[0]['lon'])]
+    return None
+
+# Streamlit app configuration
 st.set_page_config(page_title="Pipeflow", page_icon=":tada:", layout="wide")
 
 # Custom CSS for dark blue background and white text
@@ -42,22 +51,22 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# Title of the app
 st.title("Pipeflow")
 
 # Text field for event query
+event_query = st.text_input("Enter event query")
 
-# Text field for URL
-url_input = st.text_input("Enter URL to fetch event data")
+# Text area for JSON input
+json_input = st.text_area("Enter JSON event data")
 
-# Fetch data from URL
-if url_input:
+# Button to process JSON input
+if st.button("Classify and Describe Events"):
     try:
-        response = requests.get(url_input)
-        response.raise_for_status()
-        list = response.text
-        events = classify_and_describe_events(list)
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error fetching data: {e}")
+        events = json.loads(json_input)
+        events = classify_and_describe_events(events)
+    except json.JSONDecodeError as e:
+        st.error(f"Error parsing JSON: {e}")
         events = []
 else:
     events = []
