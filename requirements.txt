@@ -6,3 +6,4 @@ folium
 streamlit-folium
 langchain_core
 langchain_groq
+requests
