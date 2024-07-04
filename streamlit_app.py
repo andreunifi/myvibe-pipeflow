@@ -121,8 +121,7 @@ def create_map():
     
     return m
 
-# Display the map
-st_folium(create_map(), width=700)
+
 
 # Center the map
 st.write("## Map of Locations")
