@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import st_folium
-
+import GeoCoding
+from myVibeGroq import classify_and_describe_events
 # Set the page config
 st.set_page_config(page_title="Pipeflow", page_icon=":tada:", layout="wide")
 
@@ -48,48 +49,7 @@ st.title("Pipeflow")
 event_query = st.text_input("Enter event query")
 
 # Example event data
-events = [
-    {
-        "name": "Milan Fashion Week",
-        "location": "Milan",
-        "datetime": "September 15th to 21st, 2024",
-        "description": "Transforms Milan into the epicenter of the fashion world, with designers showcasing their latest creations.",
-        "price": None,
-        "capacity": None
-    },
-    {
-        "name": "Leonardo da Vinci Exhibition",
-        "location": "Museo Nazionale della Scienza e della Tecnologia Leonardo da Vinci",
-        "datetime": "July 1st to October 31st, 2024",
-        "description": "A deep dive into the genius of Leonardo, with intricate sketches, engineering marvels, and timeless artworks.",
-        "price": None,
-        "capacity": None
-    },
-    {
-        "name": "Milan Design Week",
-        "location": "Various locations",
-        "datetime": "April 10th to 16th, 2024",
-        "description": "A celebration of creativity, with cutting-edge designs, thought-provoking installations, and engaging workshops.",
-        "price": None,
-        "capacity": None
-    },
-    {
-        "name": "La Scala Opera Season Opening",
-        "location": "Teatro alla Scala",
-        "datetime": "December 7th, 2024",
-        "description": "A cultural highlight, with world-class performances, a glittering audience, and an atmosphere steeped in tradition.",
-        "price": None,
-        "capacity": None
-    },
-    {
-        "name": "Milan Food Festival",
-        "location": "Milan",
-        "datetime": "June 5th to 8th, 2024",
-        "description": "A four-day feast, with local delicacies, live cooking demonstrations, and interactive workshops.",
-        "price": None,
-        "capacity": None
-    }
-]
+events = classify_and_describe_events(event_query)
 
 # Convert event data to DataFrame
 df = pd.DataFrame(events)
@@ -101,29 +61,26 @@ max_items = st.slider("Select the maximum number of events to display", min_valu
 st.table(df.head(max_items))
 
 # Create a map
-def create_map():
+def create_map(events):
     m = folium.Map(location=[20, 0], zoom_start=2, tiles="cartodb dark_matter")
-    
-    locations = {
-        "London": [37.0902, -95.7129],
-        "Milan": [60.1282, 18.6435],
-        "France": [46.6034, 1.8883],
-        "Brazil": [-14.2350, -51.9253],
-        "South Africa": [-30.5595, 22.9375]
-    }
-    
-    for loc, coords in locations.items():
-        folium.Marker(
-            location=coords,
-            popup=loc,
-            icon=folium.Icon(color="lightblue", icon="info-sign")
-        ).add_to(m)
-    
+
+    for event in events:
+        location_name = event["location"]
+        coordinates = get_coordinates(location_name)
+        if coordinates:
+            folium.Marker(
+                location=coordinates,
+                popup=f"<b>{event['name']}</b><br>{event['description']}<br>{event['datetime']}",
+                icon=folium.Icon(color="lightblue", icon="info-sign")
+            ).add_to(m)
+        else:
+            print(f"Coordinates not found for {location_name}")
+
     return m
 
 # Center the map
 st.write("## Map of Locations")
 map_container = st.container()
 with map_container:
-    folium_map = create_map()
+    folium_map = create_map(events)
     st_folium(folium_map, width=700)

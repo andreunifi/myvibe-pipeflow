@@ -17,14 +17,4 @@ def get_coordinates(location):
     else:
         return None
 
-locations = ["London", "Milan", "France", "Brazil", "South Africa"]
-coordinates = {}
 
-for location in locations:
-    coord = get_coordinates(location)
-    if coord:
-        coordinates[location] = coord
-    else:
-        coordinates[location] = "Coordinates not found"
-
-print(coordinates)

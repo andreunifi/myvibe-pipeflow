@@ -28,18 +28,20 @@ Music lovers, mark your calendars for December 7th, 2024. The La Scala Opera Sea
 
 For foodies, the Milan Food Festival from June 5th to 8th, 2024, is a culinary paradise. This festival brings together the best of Milan’s gastronomy. Think of it as a four-day feast where you can indulge in local delicacies, watch live cooking demonstrations, and participate in interactive workshops. Whether you’re a fan of traditional Milanese cuisine or eager to try modern culinary innovations, this festival caters to all tastes. It’s a delightful journey through the rich food culture of Milan.
 """
+def classify_and_describe_events(event_query):
+    parser = JsonOutputParser(pydantic_object=Event)
+    prompt = PromptTemplate(
+        template="Classify and describe events.\n{format_instructions}\n{query}\n",
+        input_variables=["query"],
+        partial_variables={"format_instructions": parser.get_format_instructions()},
+    )
+    chain = prompt | model | parser
+    output = chain.invoke({"query": event_query})
 
+    json_output = json.dumps(output, indent=4)
+    return json_output
 
-parser = JsonOutputParser(pydantic_object=Event)
-prompt = PromptTemplate(
-    template="Classify and describe events.\n{format_instructions}\n{query}\n",
-    input_variables=["query"],
-    partial_variables={"format_instructions": parser.get_format_instructions()},
-)
-chain = prompt | model | parser
-output=chain.invoke({"query": event_query})
+# Example usage
+result = classify_and_describe_events(event_query)
+print(result)
 
-json_output = json.dumps(output, indent=4)
-
-# Print the JSON string
-print(json_output)
