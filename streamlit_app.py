@@ -50,7 +50,7 @@ st.title("Pipeflow")
 event_query = st.text_input("Enter event query")
 
 
-list= json_string = '''
+list=  '''
 [
     {
         "name": "Milan Fashion Week",
