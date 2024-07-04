@@ -6,7 +6,7 @@ from streamlit_folium import st_folium
 # Set the page config
 st.set_page_config(page_title="Pipeflow", page_icon=":tada:", layout="wide")
 
-# Custom CSS for dark theme
+# Custom CSS for dark blue background and white text
 st.markdown(
     """
     <style>
@@ -22,10 +22,18 @@ st.markdown(
         color: #ffffff;
     }
     .css-15zrgzn {
-        background-color: #333333;
+        background-color: #1e1e1e;
         color: #ffffff;
     }
     .css-18ni7ap {
+        color: #ffffff;
+    }
+    .css-1v3fvcr {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+    .css-1l02zno {
+        background-color: #1e1e1e;
         color: #ffffff;
     }
     </style>
@@ -94,7 +102,7 @@ st.table(df.head(max_items))
 
 # Create a map
 def create_map():
-    m = folium.Map(location=[0, 0], zoom_start=2, tiles="cartodb dark_matter")
+    m = folium.Map(location=[20, 0], zoom_start=2, tiles="cartodb dark_matter")
     
     locations = {
         "United States": [37.0902, -95.7129],
@@ -116,3 +124,9 @@ def create_map():
 # Display the map
 st_folium(create_map(), width=700)
 
+# Center the map
+st.write("## Map of Locations")
+map_container = st.container()
+with map_container:
+    folium_map = create_map()
+    st_folium(folium_map, width=700)
