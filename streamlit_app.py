@@ -45,11 +45,72 @@ st.markdown(
 # Title of the app
 st.title("Pipeflow")
 
+
 # Text field
 event_query = st.text_input("Enter event query")
 
-# Example event data
-events = classify_and_describe_events(event_query)
+
+list= json_string = '''
+[
+    {
+        "name": "Milan Fashion Week",
+        "location": "Milan, Italy",
+        "datetime": "September 15th to 21st, 2024",
+        "description": "Transforms Milan into the epicenter of the fashion world, with designers showcasing their latest creations.",
+        "price": 200.00,
+        "capacity": 1000
+    },
+    {
+        "name": "Leonardo da Vinci Exhibition",
+        "location": "Museo Nazionale della Scienza e della Tecnologia Leonardo da Vinci, Milan, Italy",
+        "datetime": "July 1st to October 31st, 2024",
+        "description": "A deep dive into the genius of Leonardo, with intricate sketches, engineering marvels, and timeless artworks.",
+        "price": 15.00,
+        "capacity": 500
+    },
+    {
+        "name": "Milan Design Week",
+        "location": "Various locations in Milan, Italy",
+        "datetime": "April 10th to 16th, 2024",
+        "description": "A celebration of creativity, with cutting-edge designs, thought-provoking installations, and engaging workshops.",
+        "price": 50.00,
+        "capacity": 3000
+    },
+    {
+        "name": "La Scala Opera Season Opening",
+        "location": "Teatro alla Scala, Milan, Italy",
+        "datetime": "December 7th, 2024",
+        "description": "A cultural highlight, with world-class performances, a glittering audience, and an atmosphere steeped in tradition.",
+        "price": 150.00,
+        "capacity": 2000
+    },
+    {
+        "name": "Milan Food Festival",
+        "location": "Milan, Italy",
+        "datetime": "June 5th to 8th, 2024",
+        "description": "A four-day feast, with local delicacies, live cooking demonstrations, and interactive workshops.",
+        "price": 25.00,
+        "capacity": 10000
+    },
+    {
+        "name": "Oktoberfest",
+        "location": "Munich, Germany",
+        "datetime": "September 21st to October 6th, 2024",
+        "description": "A world-famous beer festival with traditional Bavarian music, food, and culture.",
+        "price": 10.00,
+        "capacity": 500000
+    },
+    {
+        "name": "Glastonbury Festival",
+        "location": "Somerset, England",
+        "datetime": "June 26th to 30th, 2024",
+        "description": "A five-day festival of contemporary performing arts, featuring music, dance, comedy, theatre, circus, and more.",
+        "price": 250.00,
+        "capacity": 135000
+    }
+]
+'''
+events = classify_and_describe_events(list)
 
 # Convert event data to DataFrame
 df = pd.DataFrame(events)
