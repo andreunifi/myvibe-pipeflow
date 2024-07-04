@@ -54,16 +54,15 @@ st.markdown(
 # Title of the app
 st.title("Pipeflow")
 
-# Text field for event query
-event_query = st.text_input("Enter event query")
+
 
 # Text area for JSON input
-json_input = st.text_area("Enter JSON event data")
+events= st.text_area("Enter JSON event data")
 
 # Button to process JSON input
 if st.button("Classify and Describe Events"):
     try:
-        events = json.loads(json_input)
+        
         events = classify_and_describe_events(events)
     except json.JSONDecodeError as e:
         st.error(f"Error parsing JSON: {e}")
