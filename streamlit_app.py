@@ -63,7 +63,7 @@ instagram_accounts = {
 
 if input_method == "Parse Long Text":
     # Text area for JSON input
-    events = st.text_area("Enter JSON event data")
+    events = st.text_area("Enter event data")
 
     # Button to process JSON input
     if st.button("Classify and Describe Events"):
@@ -114,6 +114,7 @@ if events:
         m = folium.Map(location=[20, 0], zoom_start=2, tiles="cartodb dark_matter")
 
         for _, event in df.iterrows():
+            print(event)
             location_name = event["location"]
             coordinates = get_coordinates(location_name)
             if coordinates:
