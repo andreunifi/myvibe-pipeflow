@@ -77,6 +77,7 @@ else:
 
 # Convert event data to DataFrame
 if events:
+    print(events)
     df = pd.DataFrame(events)
 
     # Display the table with a maximum number of items based on the slider
