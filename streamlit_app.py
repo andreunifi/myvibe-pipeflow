@@ -71,8 +71,8 @@ else:
         
         # Placeholder for Instagram data (Replace with actual data fetching)
         events = [
-            {"name": "Event 1", "description": "Description 1", "location": "Location 1", "datetime": "2024-07-07T12:00:00Z", "instagram": instagram_accounts[selected_account]},
-            {"name": "Event 2", "description": "Description 2", "location": "Location 2", "datetime": "2024-07-08T12:00:00Z", "instagram": instagram_accounts[selected_account]}
+            {"name": "Event 1", "description": "Description 1", "Via roma 56, Siena,": "Location 1", "datetime": "2024-07-07T12:00:00Z", "instagram": instagram_accounts[selected_account]},
+            {"name": "Event 2", "description": "Description 2", "Via pisa, Follonica": "Location 2", "datetime": "2024-07-08T12:00:00Z", "instagram": instagram_accounts[selected_account]}
         ]
 
 # Convert event data to DataFrame
