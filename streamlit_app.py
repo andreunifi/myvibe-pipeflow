@@ -18,25 +18,7 @@ st.markdown(
         background-color: #1e1e1e;
         color: #ffffff;
     }
-    .css-1aumxhk {
-        background-color: #1e1e1e;
-        color: #ffffff;
-    }
-    .css-1lcbmhc {
-        color: #ffffff;
-    }
-    .css-15zrgzn {
-        background-color: #1e1e1e;
-        color: #ffffff;
-    }
-    .css-18ni7ap {
-        color: #ffffff;
-    }
-    .css-1v3fvcr {
-        background-color: #1e1e1e;
-        color: #ffffff;
-    }
-    .css-1l02zno {
+    .css-1aumxhk, .css-1lcbmhc, .css-15zrgzn, .css-18ni7ap, .css-1v3fvcr, .css-1l02zno {
         background-color: #1e1e1e;
         color: #ffffff;
     }
@@ -53,7 +35,9 @@ input_method = st.radio(
     "Select Input Method",
     options=["Parse Long Text", "Pull Data from Instagram"]
 )
+
 max_items = st.slider("Select the maximum number of events to display", min_value=1, max_value=20, value=1)
+
 # Define available Instagram accounts
 instagram_accounts = {
     "Account 1": "https://instagram.com/account1",
@@ -61,20 +45,20 @@ instagram_accounts = {
     "Account 3": "https://instagram.com/account3"
 }
 
+events = []
+
 if input_method == "Parse Long Text":
     # Text area for JSON input
-    events = st.text_area("Enter event data")
+    events_input = st.text_area("Enter event data")
 
     # Button to process JSON input
     if st.button("Classify and Describe Events"):
         try:
-            events = classify_and_describe_events(events)
+            events = classify_and_describe_events(events_input)
         except json.JSONDecodeError as e:
             st.error(f"Error parsing JSON: {e}")
-            events = []
-        else:
-            events = []
-else:  # input_method == "Pull Data from Instagram"
+else:
+    # input_method == "Pull Data from Instagram"
     # Dropdown menu to select Instagram account
     selected_account = st.selectbox("Select an Instagram Account", options=list(instagram_accounts.keys()))
 
@@ -86,17 +70,14 @@ else:  # input_method == "Pull Data from Instagram"
         time.sleep(2)  # Replace with actual data fetching logic
         
         # Placeholder for Instagram data (Replace with actual data fetching)
-        events = json.dumps([
+        events = [
             {"name": "Event 1", "description": "Description 1", "location": "Location 1", "datetime": "2024-07-07T12:00:00Z", "instagram": instagram_accounts[selected_account]},
             {"name": "Event 2", "description": "Description 2", "location": "Location 2", "datetime": "2024-07-08T12:00:00Z", "instagram": instagram_accounts[selected_account]}
-        ])
+        ]
 
 # Convert event data to DataFrame
 if events:
-    df = pd.read_json(events)
-
-    # Slider to select the number of events to display
-   
+    df = pd.DataFrame(events)
 
     # Display the table with a maximum number of items based on the slider
     st.table(df.head(max_items))
@@ -110,11 +91,10 @@ if events:
     st.markdown(f"**Instagram Link:** [View Profile]({selected_event['instagram']})")
 
     # Create a map
-    def create_map(events):
+    def create_map(df):
         m = folium.Map(location=[20, 0], zoom_start=2, tiles="cartodb dark_matter")
 
         for _, event in df.iterrows():
-            print(event)
             location_name = event["location"]
             coordinates = get_coordinates(location_name)
             if coordinates:
@@ -132,7 +112,7 @@ if events:
     st.write("## Map of Locations")
     map_container = st.container()
     with map_container:
-        folium_map = create_map(events)
+        folium_map = create_map(df)
         st_folium(folium_map, width=700)
 else:
     st.write("No events to display.")
