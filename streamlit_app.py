@@ -54,6 +54,13 @@ input_method = st.radio(
     options=["Parse Long Text", "Pull Data from Instagram"]
 )
 
+# Define available Instagram accounts
+instagram_accounts = {
+    "Account 1": "https://instagram.com/account1",
+    "Account 2": "https://instagram.com/account2",
+    "Account 3": "https://instagram.com/account3"
+}
+
 if input_method == "Parse Long Text":
     # Text area for JSON input
     events = st.text_area("Enter JSON event data")
@@ -68,16 +75,20 @@ if input_method == "Parse Long Text":
         else:
             events = []
 else:  # input_method == "Pull Data from Instagram"
-    st.write("Fetching data from Instagram...")
-    
+    # Dropdown menu to select Instagram account
+    selected_account = st.selectbox("Select an Instagram Account", options=list(instagram_accounts.keys()))
+
+    # Fetch and display data for the selected Instagram account
+    st.write(f"Fetching data from Instagram account: {selected_account}...")
+
     with st.spinner("Loading Instagram data..."):
         # Simulate Instagram data fetching with a delay
         time.sleep(2)  # Replace with actual data fetching logic
         
-        # Placeholder for Instagram data (Replace with actual Instagram data fetching)
+        # Placeholder for Instagram data (Replace with actual data fetching)
         events = json.dumps([
-            {"name": "Event 1", "description": "Description 1", "location": "Location 1", "datetime": "2024-07-07T12:00:00Z", "instagram": "https://instagram.com/event1"},
-            {"name": "Event 2", "description": "Description 2", "location": "Location 2", "datetime": "2024-07-08T12:00:00Z", "instagram": "https://instagram.com/event2"}
+            {"name": "Event 1", "description": "Description 1", "location": "Location 1", "datetime": "2024-07-07T12:00:00Z", "instagram": instagram_accounts[selected_account]},
+            {"name": "Event 2", "description": "Description 2", "location": "Location 2", "datetime": "2024-07-08T12:00:00Z", "instagram": instagram_accounts[selected_account]}
         ])
 
 # Convert event data to DataFrame
