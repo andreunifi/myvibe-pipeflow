@@ -53,7 +53,7 @@ input_method = st.radio(
     "Select Input Method",
     options=["Parse Long Text", "Pull Data from Instagram"]
 )
-max_items = st.slider("Select the maximum number of events to display", min_value=1, max_value=len(df), value=len(df))
+max_items = st.slider("Select the maximum number of events to display", min_value=1, max_value=20, value=1)
 # Define available Instagram accounts
 instagram_accounts = {
     "Account 1": "https://instagram.com/account1",
