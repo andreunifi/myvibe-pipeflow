@@ -79,5 +79,5 @@ def scrape_user_posts(user_id: str, session: httpx.Client, page_size=12, max_pag
 # Example run:
 if __name__ == "__main__":
     with httpx.Client(timeout=httpx.Timeout(20.0)) as session:
-        posts = list(scrape_user_posts("59702950371", session, max_pages=3))
+        posts = list(scrape_user_posts("59702950371", session, max_pages=5))
         print(json.dumps(posts, indent=2, ensure_ascii=False))
