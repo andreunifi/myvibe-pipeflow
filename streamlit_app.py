@@ -53,7 +53,7 @@ input_method = st.radio(
     "Select Input Method",
     options=["Parse Long Text", "Pull Data from Instagram"]
 )
-
+max_items = st.slider("Select the maximum number of events to display", min_value=1, max_value=len(df), value=len(df))
 # Define available Instagram accounts
 instagram_accounts = {
     "Account 1": "https://instagram.com/account1",
@@ -96,7 +96,7 @@ if events:
     df = pd.read_json(events)
 
     # Slider to select the number of events to display
-    max_items = st.slider("Select the maximum number of events to display", min_value=1, max_value=len(df), value=len(df))
+   
 
     # Display the table with a maximum number of items based on the slider
     st.table(df.head(max_items))
