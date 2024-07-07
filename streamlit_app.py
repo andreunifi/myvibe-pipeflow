@@ -3,10 +3,9 @@ import pandas as pd
 import folium
 from streamlit_folium import st_folium
 import json
+import time
 from GeoCoding import get_coordinates
 from myVibeGroq import classify_and_describe_events
-
-
 
 # Streamlit app configuration
 st.set_page_config(page_title="Pipeflow", page_icon=":tada:", layout="wide")
@@ -49,21 +48,37 @@ st.markdown(
 # Title of the app
 st.title("Pipeflow")
 
+# Radio button for selecting input method
+input_method = st.radio(
+    "Select Input Method",
+    options=["Parse Long Text", "Pull Data from Instagram"]
+)
 
+if input_method == "Parse Long Text":
+    # Text area for JSON input
+    events = st.text_area("Enter JSON event data")
 
-# Text area for JSON input
-events= st.text_area("Enter JSON event data")
-
-# Button to process JSON input
-if st.button("Classify and Describe Events"):
-    try:
+    # Button to process JSON input
+    if st.button("Classify and Describe Events"):
+        try:
+            events = classify_and_describe_events(events)
+        except json.JSONDecodeError as e:
+            st.error(f"Error parsing JSON: {e}")
+            events = []
+        else:
+            events = []
+else:  # input_method == "Pull Data from Instagram"
+    st.write("Fetching data from Instagram...")
+    
+    with st.spinner("Loading Instagram data..."):
+        # Simulate Instagram data fetching with a delay
+        time.sleep(2)  # Replace with actual data fetching logic
         
-        events = classify_and_describe_events(events)
-    except json.JSONDecodeError as e:
-        st.error(f"Error parsing JSON: {e}")
-        events = []
-else:
-    events = []
+        # Placeholder for Instagram data (Replace with actual Instagram data fetching)
+        events = json.dumps([
+            {"name": "Event 1", "description": "Description 1", "location": "Location 1", "datetime": "2024-07-07T12:00:00Z", "instagram": "https://instagram.com/event1"},
+            {"name": "Event 2", "description": "Description 2", "location": "Location 2", "datetime": "2024-07-08T12:00:00Z", "instagram": "https://instagram.com/event2"}
+        ])
 
 # Convert event data to DataFrame
 if events:
@@ -74,6 +89,14 @@ if events:
 
     # Display the table with a maximum number of items based on the slider
     st.table(df.head(max_items))
+
+    # Dropdown menu for selecting events
+    event_names = df["name"].tolist()
+    selected_name = st.selectbox("Select an Event", options=event_names)
+    
+    # Display Instagram link for the selected event
+    selected_event = df[df["name"] == selected_name].iloc[0]
+    st.markdown(f"**Instagram Link:** [View Profile]({selected_event['instagram']})")
 
     # Create a map
     def create_map(events):

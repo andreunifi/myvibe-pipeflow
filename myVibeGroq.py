@@ -42,6 +42,5 @@ def classify_and_describe_events(event_query):
     return json_output
 
 # Example usage
-result = classify_and_describe_events(event_query)
-print(result)
+
 
